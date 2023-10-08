@@ -103,28 +103,21 @@ impeach %>%
 6)  Filter out only the members who are a yes for impeachment. Then of those "Yes" member, how many won their 2018 election by less than 5 percentage points (`margin_flag_2018`) vs. more?
 
 ```{r}
-
-  
-
-
-
-
-
-
+# Less - 17, more - 192
+impeach %>%
+  filter(for_impeachment == "YES") %>%
+  group_by(margin_flag_2018) %>%
+  summarise(n())
 
 ```
 
 7)  Come up with another breakdown of your choosing for how you'd like to examine this dataset. Say what you'll look at, and then put the code below to find the answer.
 
 ```{r}
-
-  
-
-
-
-
-
-
+# Breakdown by y/no to impeachment and average income
+impeach %>%
+  group_by(for_impeachment) %>%
+  summarise(income_average = mean(median_income))
 
 ```
 
@@ -133,27 +126,22 @@ impeach %>%
 Use the mutate() function to create two new columns: one that extracts the year from date_announced, and a second that extracts the month.
 
 ```{r}
-
-  
-
-
-
-
-
-
+# mutate by year and month
+impeach2 <- impeach %>%
+  select(date_announced) %>%
+  mutate(year_announced = year(date_announced),
+                               month_announced =
+                              month(date_announced))
 
 ```
 
 8) Using the new columns you created in #7, use grouping to count up how many House Democrats during each month announced their support of impeachment.
 
 ```{r}
-
-  
-
-
-
-
-
+# summarise by counting # of each month
+impeach2 %>%
+  group_by(month_announced) %>%
+  summarise(n())
 
 
 ```
